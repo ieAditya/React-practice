@@ -1,0 +1,19 @@
+{
+  "employees": [
+    {
+      "id": "f5d9",
+      "name": "Aditya Sahni",
+      "email": "chuzzamenhowasigna@gmail.com",
+      "dob": "2026-02-25",
+      "contact": "09065272061",
+      "gender": "",
+      "state": "Odisha",
+      "city": "Bhubaneswar",
+      "address": "Shree Bhawan, Near Kripalu Kutir, Sai Temple Road, Ananda Vihar, Patia",
+      "hobbies": [
+        "Football",
+        "Singing"
+      ]
+    }
+  ]
+}

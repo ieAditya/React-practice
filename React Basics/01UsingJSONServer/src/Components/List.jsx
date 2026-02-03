@@ -21,6 +21,7 @@ export default function List() {
         <table className="w-full border">
             <thead className="bg-gray-200">
             <tr>
+                <th className="border p-2">S.No.</th>
                 <th className="border p-2">Name</th>
                 <th className="border p-2">Email</th>
                 <th className="border p-2">DOB</th>
@@ -32,8 +33,9 @@ export default function List() {
             </tr>
             </thead>
             <tbody>
-            {employees.map((emp) => (
+            {employees.map((emp, index) => (
                 <tr key={emp.id}>
+                <td className="border p-2">{index+1}</td>
                 <td className="border p-2">{emp.name}</td>
                 <td className="border p-2">{emp.email}</td>
                 <td className="border p-2">{emp.dob}</td>

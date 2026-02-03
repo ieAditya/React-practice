@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function Home() {
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
   const [contact, setContact] = useState("");
@@ -28,6 +27,8 @@ export default function Home() {
   const [validPassword, setValidPassword] = useState(true);
   const [validGender, setValidGender] = useState(true);
 
+  const [passAlertMessage, setPassAlertMessage] = useState("");
+
   const statesAndCities = {
     "Maharashtra" : ["Mumbai", "Pune"],
     "Bihar" : ["Muzaffarpur", "Patna"],
@@ -35,38 +36,76 @@ export default function Home() {
     "Delhi" : ["New Delhi", "Old Delhi"]
   }
 
-  const checkName = () => {
+  function checkName(){
     for(let i = 0; i < name.length; i++){
       if(name.charAt(i) == " ")
         continue;
       if(!((name.charAt(i) >= 'a' && name.charAt(i) <= 'z') || (name.charAt(i) >= 'A' && name.charAt(i) <= 'Z'))){
-        setValidName(false);
-        break;
+        return false;
       }
     }
+    return true;
   }
 
-  const checkDob = () => {
+  function checkDob(){
     const inpDate = new Date(dob);
-    const currentDate = new Date();
-    currentDate.setHours(0,0,0);
-    return inpDate < currentDate;
+    const date18YearsBack = new Date();
+    date18YearsBack.setFullYear(date18YearsBack.getFullYear() - 18);
+    return inpDate < date18YearsBack;
+  }
+
+  function checkPassword(){
+    let containsUpperCase = false;
+    let containsLowerCase = false;
+    let containsSpecialChar = false;
+
+    const specialChars = ['~', '!', '@', '#', '$', '^', '&', '*'];
+
+    if(password != confirmPassword){
+      setPassAlertMessage("Passwords do not match");
+      return false;
+    }
+    if(password.length < 8)
+    {
+      setPassAlertMessage("Password length should be minimum 8");
+      return false;
+    }
+    for(let i = 0; i < password.length; i++){
+      if(password.charAt(i) >= 'a' && password.charAt(i) <= 'z'){
+        containsLowerCase = true;
+        continue;
+      }
+      if(password.charAt(i) >= 'A' && password.charAt(i) <= 'Z'){
+        containsUpperCase = true;
+        continue;
+      }
+      if(specialChars.includes(password.charAt(i))){
+        containsSpecialChar = true;
+        continue;
+      }
+    }
+
+    if(containsLowerCase && containsUpperCase && containsSpecialChar)
+      return true;
+
+    setPassAlertMessage("Password must contain atlease 1 lower case, 1 Upper case and 1 special character");
+    return false;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const isValidName = checkName;
+    const isValidContact = (contact.length == 10);
+    const isValidDob = checkDob;
+    const isValidGender = (gender.length != 0);
+    const isValidPass = checkPassword();
 
-    if(!(password === confirmPassword))
-      setValidPassword(false);
-
-    if(contact.length != 10)
-      setValidContact(false);
-
-    if(!checkDob)
-      setValidDob(false);
-
-    if(gender.length == 0)
-      setValidGender(false);
+    setValidName(isValidName);
+    setValidPassword(isValidPass);
+    setValidContact(isValidContact);
+    setValidDob(isValidDob);
+    setValidGender(isValidGender);
 
     
     const hobbiesArr = [];
@@ -75,7 +114,7 @@ export default function Home() {
         hobbiesArr.push(hobby)
     })
     
-    if(validName && validDob && validContact && validPassword && validPassword && validGender){
+    if(isValidName && isValidDob && isValidContact && isValidPass && isValidGender){
 
       const employeeData = {
         name: name,
@@ -98,8 +137,23 @@ export default function Home() {
       });
 
       setName("");
-      setAge("");
       setAddress("");
+      setDob("");
+      setContact("");
+      setEmail("");
+      setState("");
+      setCity("");
+      setPassword("");
+      setConfirmPassword("");
+      setGender("");
+      setCitiesList([]);
+      setHobbies({
+        Football : false,
+        Cricket : false,
+        Driving : false,
+        Singing : false,
+        Dancing : false
+      });
       alert("Data submitted!");
     }
   };
@@ -120,7 +174,10 @@ export default function Home() {
             name="name"
             placeholder="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setValidName(true);
+            }}
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
             required
           />
@@ -151,7 +208,10 @@ export default function Home() {
               type="date"
               name="dob"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
+              onChange={(e) => {
+                setDob(e.target.value);
+                setValidDob(true);
+              }}
               className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
               required
             />
@@ -159,7 +219,7 @@ export default function Home() {
 
           <div class={`bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative
             ${validDob? "hidden": ""}`} role="alert">
-            <span class="block sm:inline">Select gender</span>
+            <span class="block sm:inline">Invalid DOB</span>
             <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
               <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
             </span>
@@ -170,7 +230,10 @@ export default function Home() {
             name="contact"
             placeholder="Contact Number"
             value={contact}
-            onChange={(e) => setContact(e.target.value)}
+            onChange={(e) => {
+              setContact(e.target.value);
+              setValidContact(true);
+            }}
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
             required
           />
@@ -190,7 +253,10 @@ export default function Home() {
                 <input type="radio" name="gender"
                 value="Male"
                 checked={gender === "Male"}
-                onChange={(e) => setGender(e.target.value)}
+                onChange={(e) => {
+                  setGender(e.target.value);
+                  setValidGender(true);
+                }}
                 />
                 Male
               </label>
@@ -198,7 +264,10 @@ export default function Home() {
                 <input type="radio" name="gender"
                 value="Female"
                 checked={gender === "Female"}
-                onChange={(e) => setGender(e.target.value)}
+                onChange={(e) => {
+                  setGender(e.target.value);
+                  setValidGender(true);
+                }}
                 />
                 Female
               </label>
@@ -272,7 +341,10 @@ export default function Home() {
             placeholder="Password"
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setValidPassword(true);
+            }}
             required
           />
 
@@ -282,13 +354,16 @@ export default function Home() {
             placeholder="Confirm Password"
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setValidPassword(true);
+            }}
             required
           />
 
           <div class={`bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative
             ${validPassword? "hidden": ""}`} role="alert">
-            <span class="block sm:inline">Passwords does not match</span>
+            <span class="block sm:inline">{passAlertMessage}</span>
             <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
               <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
             </span>

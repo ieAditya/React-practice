@@ -3,8 +3,13 @@ import { createContext, useContext } from "react";
 export const ToDoContext = createContext({
     toDoList : [
         {
-            id: "1",
-            toDo: "Temp ToDo",
+            id: 1,
+            toDo: "Temp ToDo 1",
+            completed: false
+        },
+        {
+            id: 2,
+            toDo: "Temp ToDo 2",
             completed: false
         }
     ],

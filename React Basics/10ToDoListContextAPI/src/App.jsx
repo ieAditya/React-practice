@@ -8,7 +8,7 @@ function App() {
   const [toDoList, setToDoList] = useState(() => {
     try {
       const stored = localStorage.getItem("toDoList");
-      return stored ? JSON.parse(stored) : [];
+      return stored ? JSON.parse(stored) :[];
     } catch {
       return [];
     }

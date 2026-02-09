@@ -11,7 +11,7 @@ function ToDoItem({ toDo }) {
 
     const editTodo = () => {
         if(toDoText && toDoText.length > 0){
-            dispatch(updateToDo({toDo, text: toDoText}))
+            dispatch(updateToDo({...toDo, text: toDoText}))
             setPrevValue(toDoText)
         }
         else

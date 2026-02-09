@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {useNavigate} from "react-router"
 
 export default function Home() {
   const [name, setName] = useState("");
@@ -29,12 +30,16 @@ export default function Home() {
 
   const [passAlertMessage, setPassAlertMessage] = useState("");
 
-  const statesAndCities = {
-    "Maharashtra" : ["Mumbai", "Pune"],
-    "Bihar" : ["Muzaffarpur", "Patna"],
-    "Odisha" : ["Bhubaneswar", "Cuttack"],
-    "Delhi" : ["New Delhi", "Old Delhi"]
-  }
+  const [statesAndCities, setStateAndCities] = useState({});
+
+  useEffect(() => {
+    fetch("http://localhost:3004/statesAndCities")
+    .then((res) => res.json())
+    .then((data) => {
+      setStateAndCities(data[0]);
+      console.log(data)
+    })
+  }, [])
 
   function checkName(){
     for(let i = 0; i < name.length; i++){
@@ -92,6 +97,8 @@ export default function Home() {
     return false;
   }
 
+  const navigate = useNavigate();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -155,6 +162,8 @@ export default function Home() {
         Dancing : false
       });
       alert("Data submitted!");
+
+      navigate("/list")
     }
   };
 

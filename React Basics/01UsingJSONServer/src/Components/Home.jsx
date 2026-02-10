@@ -98,7 +98,7 @@ export default function Home() {
   }
 
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -308,7 +308,8 @@ export default function Home() {
             onChange={(e) => {
               setState(e.target.value);
               console.log(statesAndCities[e.target.value]);
-              setCitiesList(statesAndCities[e.target.value]);
+              if(e.target.value.length != 0)
+                setCitiesList(statesAndCities[e.target.value]);
             }}
             required
           >

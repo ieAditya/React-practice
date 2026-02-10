@@ -1,13 +1,43 @@
 {
   "employees": [
-    
-  ],
-  "statesAndCities" : [
     {
-      "Bihar" : ["Muzaffarpur", "Patna", "Gaya"],
-      "UP" : ["Lucknow", "Kanpur", "Noida"],
-      "Odisha" : ["Koraput", "Bhubaneswar", "Cuttack"],
-      "Maharashtra" : ["Pune", "Mumbai", "Nagpur"]
+      "id": "3968",
+      "name": "Aditya Sahni",
+      "email": "imadityasahni101@gmail.com",
+      "dob": "2001-01-10",
+      "contact": "9065272061",
+      "gender": "Male",
+      "state": "Bihar",
+      "city": "Muzaffarpur",
+      "address": "Shree Bhawan, Near Kripalu Kutir, Sai Temple Road, Ananda Vihar, Patia",
+      "hobbies": [
+        "Football",
+        "Driving"
+      ]
+    }
+  ],
+  "statesAndCities": [
+    {
+      "Bihar": [
+        "Muzaffarpur",
+        "Patna",
+        "Gaya"
+      ],
+      "UP": [
+        "Lucknow",
+        "Kanpur",
+        "Noida"
+      ],
+      "Odisha": [
+        "Koraput",
+        "Bhubaneswar",
+        "Cuttack"
+      ],
+      "Maharashtra": [
+        "Pune",
+        "Mumbai",
+        "Nagpur"
+      ]
     }
   ]
 }

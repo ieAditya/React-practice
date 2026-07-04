@@ -1,0 +1,8 @@
+{
+  "personal_detail": [],
+  "educational_detail" : [],
+  "work_experience": [],
+  "address": [],
+  "progress" : [0],
+  "users": [{ "id": 1, "name": "Aditya Sahni" }]
+}
